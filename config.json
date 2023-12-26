@@ -1,0 +1,27 @@
+{
+  "name": {
+    "zh-cn": "opencv_maxbot",
+    "en": "opencv_maxbot"
+  },
+  "description": {
+    "zh-cn": "为maxbot小车提供额外opencv功能",
+    "en": "more opencv functions for maxbot"
+  },
+  "author": "winster",
+  "email": "2310016043@qq.com",
+  "license": "MIT",
+  "isBoard": false,
+  "id": "cvshow",
+  "version": "0.0.4",
+  "platform": ["win"],
+  "asset": {
+    "python": {
+      "dir": "python/",
+      "main": "main.ts",
+      "version": "0.0.4",
+      "dependencies": {
+                "pinpong":""
+      }
+      }
+  }
+}
