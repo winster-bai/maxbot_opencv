@@ -67,7 +67,7 @@ namespace cvshow{
         } catch(e) {
             return '';
         }
-        Generator.addCode(`cv2.putText(${img}, '${text}', (${loc}) ,cv2.FONT_HERSHEY_SIMPLEX, ${siz}, (${r},${g},${b}), 2)`)
+        Generator.addCode(`cv2.putText(${img}, ${text}, (${loc}) ,cv2.FONT_HERSHEY_SIMPLEX, ${siz}, (${b},${g},${r}), 2)`)
     }
 
 
@@ -345,20 +345,42 @@ if (len(contours) > 0):
 
     }
 
-    //%block="对象名[IMG]对图像[HAAR]进行遮罩使其只保留下半部分图像特征"blockType="command"
+
+    //%block="获取图片[IMG]的高度[HEI]和宽度[WEI]"blockType="command"
+    //% IMG.shadow="normal"   IMG.defl="img_name"
+    //% HEI.shadow="normal"   HEI.defl="height"
+    //% WEI.shadow="normal"   WEI.defl="weight"
+    export function h_w(parameter: any, block: any){
+        let img = parameter.IMG.code
+        let hei = parameter.HEI.code
+        let wei = parameter.WEI.code
+        Generator.addCode(`
+${hei}, ${wei} = ${img}.shape
+        `)
+
+    }
+
+    //%block="对象名[IMG]对图像[HAAR]进行矩形遮罩，顶点坐标[P1][P2][P3][P4]"blockType="command"
     //% IMG.shadow="normal"   IMG.defl="img_name"
     //% HAAR.shadow="normal"   HAAR.defl="img_name"
+    //% P1.shadow="normal"   P1.defl="point1"
+    //% P2.shadow="normal"   P2.defl="point2"
+    //% P3.shadow="normal"   P3.defl="point3"
+    //% P4.shadow="normal"   P4.defl="point4"
     export function cover(parameter: any, block: any){
         let img = parameter.IMG.code
         let haar = parameter.HAAR.code
+        let p1 = parameter.P1.code
+        let p2 = parameter.P2.code
+        let p3 = parameter.P3.code
+        let p4 = parameter.P4.code
         Generator.addCode(`
-height, width = ${haar}.shape
 vec = np.zeros_like(${haar})
 polygon = np.array([[
-    (0, height), 
-    (0,  height/2),
-    (width , height/2),
-    (width , height),
+    ${p1}, 
+    ${p2},
+    ${p3},
+    ${p4},
 ]], np.int32)
 
 cv2.fillPoly(vec, polygon, 255)
